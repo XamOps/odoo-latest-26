@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_pixelwave" model="ir.ui.view">
+        <field name="name">res.partner.form.custom.pixel</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='mobile']" position="after">
+                <field name="mobile_no_1" widget="phone"/>
+                <field name="mobile_no_2" widget="phone"/>
+                <field name="mobile_no_3" widget="phone"/>
+            </xpath>
+            <xpath expr="//field[@name='website']" position="after">
+                <field name="linkedin_url" widget="url"/>
+                <field name="facebook_url" widget="url"/>
+                <field name="twitter_url" widget="url"/>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="designation"/>
+                <field name="department"/>
+                <field name="description"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

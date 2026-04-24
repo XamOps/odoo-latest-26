@@ -1,0 +1,242 @@
+<section class="oe_container" id="wk_header">
+
+    <!-- ── Module Header ── -->
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12 text-center">
+            <h2 class="oe_slogan" style="color: #1f108c;">Premium Image Slider Widget for Many2many / One2many Fields</h2>
+            <h3 class="oe_slogan">Display your image fields as a beautiful, interactive slider  inspired by the native Odoo Website experience, available across all modules.</h3>
+        </div>
+    </div>
+
+    <!-- ── Feature Overview + How It Works ── -->
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="panel panel-default" style="border-top: 4px solid #1f108c;">
+                    <div class="panel-body">
+                        <h4 class="text-center" style="color: #1f108c;"><i class="fa fa-th-large"></i>&nbsp; Feature Overview</h4>
+                        <hr/>
+                        <p>By default, Odoo displays many2many/one2many image fields as a static grid of thumbnails. With this module, you can transform those fields into a <strong>premium interactive image slider</strong>  clean, smooth, and touch-friendly  inspired by the image slider experience in Odoo Website.</p>
+                        <p>The module provides the <strong>pixel_image_slider</strong> widget  a full-featured, Pixelwave-branded slider that can be applied to any many2many/one2many image field across any Odoo model.</p>
+                        <ul class="list-group">
+                            <li class="list-group-item"><i class="fa fa-check text-success"></i>&nbsp; Smooth, touch-friendly image slider on any many2many/one2many field.</li>
+                            <li class="list-group-item"><i class="fa fa-check text-success"></i>&nbsp; Works across all models: Products, CRM, Project, and more.</li>
+                            <li class="list-group-item"><i class="fa fa-check text-success"></i>&nbsp; Compatible with Odoo Studio  no developer needed.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-default" style="border-top: 4px solid #1f108c;">
+                    <div class="panel-body">
+                        <h4 class="text-center" style="color: #1f108c;"><i class="fa fa-cog"></i>&nbsp; How It Works</h4>
+                        <hr/>
+                        <p>Apply the <strong>pixel_image_slider</strong> widget to any many2many/one2many image field via <strong>Odoo Studio</strong> (no code needed) or via an <strong>XML view override</strong> in your custom module.</p>
+
+                        <div class="well well-sm">
+                            <p class="text-muted"><strong style="color: #1f108c;"><i class="fa fa-desktop"></i>&nbsp; Option A  Via Odoo Studio:</strong></p>
+                            <p class="text-muted">Open form view in Studio → click the many2many/one2many image field → set widget to <code>pixel_image_slider</code> → save.</p>
+                        </div>
+
+                        <div class="well well-sm">
+                            <p class="text-muted"><strong style="color: #1f108c;"><i class="fa fa-code"></i>&nbsp; Option B  Via XML Override:</strong></p>
+                            <p class="text-muted">Inherit the target view and add <code>widget="pixel_image_slider"</code> to the field. Update the module and reload  slider is live.</p>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <i class="fa fa-exclamation-triangle"></i>&nbsp; <strong>Note:</strong> This module provides the widget only. You must manually apply it to the desired field via Studio or XML. It does not auto-apply to any existing view.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── The Widget ── -->
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12 text-center">
+            <h2 class="oe_slogan" style="color: #1f108c;">The Widget</h2>
+            <h3 class="oe_slogan">Registered by this module</h3>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 offset-2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">
+                        <h3 class="panel-title"><i class="fa fa-star"></i>&nbsp; pixel_image_slider &nbsp;<span class="label label-default">Premium</span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <p class="text-muted text-center">Full-featured Pixelwave-branded slider with navigation arrows, thumbnail strip, and smooth transitions. Best for product showcases and media-heavy views across any Odoo model.</p>
+                        <p class="text-center"><code>widget="pixel_image_slider"</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Use Cases ── -->
+    <div class="oe_row oe_spaced" style="background-color: #f4f6ff;">
+        <div class="oe_span12 text-center">
+            <h2 class="oe_slogan" style="color: #1f108c;">Common Use Cases</h2>
+            <h3 class="oe_slogan">How this widget can be applied across different Odoo models</h3>
+        </div>
+    </div>
+
+    <div class="container" style="background-color: #f4f6ff; padding-bottom: 40px;">
+        <div class="row">
+
+            <div class="col-md-4 mt16">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="background-color: #1f108c;">
+                        <h4 class="panel-title text-white">&#128717;&nbsp; Product Extra Images</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p class="text-muted">Display all additional product images in a slider directly on the Product form  a gallery view without scrolling through a cluttered grid.</p>
+                        <p><code>product.template</code><br/><code>product_image_ids</code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mt16">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="background-color: #1f108c;">
+                        <h4 class="panel-title text-white">&#128203;&nbsp; CRM Opportunity References</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p class="text-muted">Let sales teams browse client-shared reference images right on the CRM lead form  no need to open each attachment individually.</p>
+                        <p><code>crm.lead</code><br/><code>custom m2m image field</code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mt16">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="background-color: #1f108c;">
+                        <h4 class="panel-title text-white">&#127959;&nbsp; Project Task Progress Photos</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p class="text-muted">Field teams upload before/after photos to a task. The slider makes reviewing multiple images fast and intuitive without cluttering the view.</p>
+                        <p><code>project.task</code><br/><code>custom m2m image field</code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mt16">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="background-color: #1f108c;">
+                        <h4 class="panel-title text-white">&#127970;&nbsp; Real Estate Property Listings</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p class="text-muted">Ideal for custom real estate modules  display listing photos in a premium slider on the property form for a professional presentation.</p>
+                        <p><code>custom property model</code><br/><code>property_image_ids</code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mt16">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="background-color: #1f108c;">
+                        <h4 class="panel-title text-white">&#128100;&nbsp; Employee Documents &amp; Certificates</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p class="text-muted">HR teams store scanned certificates or ID copies and browse them as a clean slider on the employee profile form.</p>
+                        <p><code>hr.employee</code><br/><code>custom m2m image field</code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mt16">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="background-color: #1f108c;">
+                        <h4 class="panel-title text-white">&#128722;&nbsp; Vendor Sample References</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p class="text-muted">Attach sample images or reference photos from vendors on a Purchase Order. The slider keeps the form clean while all images remain accessible.</p>
+                        <p><code>purchase.order</code><br/><code>custom m2m image field</code></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── Key Benefits ── -->
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12 text-center">
+            <h2 class="oe_slogan" style="color: #1f108c;">Key Benefits of This Module</h2>
+            <h3 class="oe_slogan">Why you should use this widget</h3>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4 text-center mt16">
+                <i class="fa fa-picture-o fa-3x" style="color: #1f108c;"></i>
+                <h4 class="mt8" style="color: #1f108c;">Focused Viewing Experience</h4>
+                <p class="text-muted">One image at a time with smooth navigation reduces clutter and helps users focus on what matters most.</p>
+            </div>
+
+            <div class="col-md-4 text-center mt16">
+                <i class="fa fa-mobile fa-3x" style="color: #1f108c;"></i>
+                <h4 class="mt8" style="color: #1f108c;">Touch &amp; Click Friendly</h4>
+                <p class="text-muted">Works seamlessly on tablets and touchscreen devices used in warehouses, retail, or field operations.</p>
+            </div>
+
+            <div class="col-md-4 text-center mt16">
+                <i class="fa fa-bolt fa-3x" style="color: #1f108c;"></i>
+                <h4 class="mt8" style="color: #1f108c;">Zero Extra Configuration</h4>
+                <p class="text-muted">Install the module, apply the widget via Studio or XML  and it works instantly. No extra libraries or setup required.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── Demo GIF ── -->
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12 text-center">
+            <span class="ml-1 mr-2 my-auto" style="border-style: outset; border-radius: 30px; padding: 5px; margin-right: 10%; width: 75%; margin-left: 12%; border: 4px solid #1f108c; display: inline-block;">
+                <img src="image_slider_demo.gif" alt="Image Slider Demo" style="width: 100%; border-radius: 20px; margin-bottom: -7px;"/>
+            </span>
+        </div>
+    </div>
+
+    <!-- ── Help Section ── -->
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan"><a href="https://pixelwaveinfotech.com/appointment/" style="color: #000000 !important;">Get Help &amp; Support</a></h2>
+        </div>
+    </div>
+
+    <div class="oe_slogan oe_spaced text-center">
+        <a class="btn btn-success mt8" title="Get Help !"
+           style="background-color: #1f108c; color: #ffffff !important;"
+           href="https://pixelwaveinfotech.com/contactus/">
+            Help &amp; Support
+        </a>&nbsp;&nbsp;
+        <a class="btn btn-success mt8" title="Request New Features now !"
+           style="background-color: #1f108c; color: #ffffff !important;"
+           href="https://pixelwaveinfotech.com/appointment/">
+            Request New Features
+        </a>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <br/>
+            <span style="font-size: 20px;">Do not mention your query in comments. Odoo does not inform us if there is any query sent on comments, with this there might be a delay from our side to respond on your query. So please forward your query on <a href="https://pixelwaveinfotech.com/contactus/">contact@pixelwave.com</a> for fast response.</span>
+        </div>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <span style="font-size: 20px;">For product demo, please generate a ticket and mention your preferred time and date. Please make sure the demo timing you mentioned are as per Indian Standard Time (IST), between 10:30 AM to 7:00 PM (IST), Monday to Friday.</span>
+        </div>
+    </div>
+
+</section>
