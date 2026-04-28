@@ -1,29 +1,20 @@
-name: Odoo CI/CD Pipeline
+- name: Deploy to EC2
+  run: |
+    ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+      set -x
 
-on:
-  push:
-    branches:
-      - main
+      echo 'Checking folder'
+      ls /home/ubuntu
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+      echo 'Go to project'
+      cd /home/ubuntu/odoo-latest-26 || exit 1
 
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      echo 'Git status'
+      git status
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+      echo 'Pull code'
+      git pull origin main
 
-      - name: Deploy to EC2
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            cd /home/ubuntu/oddo-latest-26 &&
-            git pull origin main &&
-            sudo systemctl restart odoo
-          "
+      echo 'Restart service'
+      sudo systemctl restart odoo
+    "
