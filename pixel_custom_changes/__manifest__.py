@@ -19,14 +19,14 @@
 ###############################################################################
 {
     'name': 'Custom Changes',
-    'version': '18.0.1.0.0',
+    'version': '19.0.1.0.0',
     'category': 'Extra Tools',
     'summary': '',
     'description': """
     """,
     "author": "Pixelwave Infotech",
     "website": "https://pixelwaveinfotech.com",
-    'depends': ['contacts'],
+    'depends': ['base_vat', 'contacts'],
     'data': [
         "views/res_partner_views.xml",
     ],
