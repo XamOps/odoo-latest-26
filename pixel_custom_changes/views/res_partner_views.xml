@@ -5,21 +5,43 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='mobile']" position="after">
-                <field name="mobile_no_1" widget="phone"/>
-                <field name="mobile_no_2" widget="phone"/>
-                <field name="mobile_no_3" widget="phone"/>
-            </xpath>
+            <xpath expr="//field[@name='phone']" position="after">
+				<field name="mobile_no_1" widget="phone"/>
+				<field name="mobile_no_2" widget="phone"/>
+				<field name="mobile_no_3" widget="phone"/>
+			</xpath>
             <xpath expr="//field[@name='website']" position="after">
                 <field name="linkedin_url" widget="url"/>
                 <field name="facebook_url" widget="url"/>
                 <field name="twitter_url" widget="url"/>
             </xpath>
-            <xpath expr="//field[@name='vat']" position="after">
-                <field name="designation"/>
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@class='o_address_format']" position="after">
+                <field name="vat"/>
+				<field name="designation"/>
                 <field name="department"/>
                 <field name="description"/>
             </xpath>
         </field>
     </record>
+
+    <record id="view_partner_base_vat_form_pixelwave" model="ir.ui.view">
+        <field name="name">res.partner.base.vat.form.custom.pixel</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base_vat.view_partner_base_vat_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='vat']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='vat_vies_container']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+	<record id="contacts.action_contacts" model="ir.actions.act_window">
+		<field name="domain">[('is_company', '=', True)]</field>
+	</record>
 </odoo>
