@@ -28,6 +28,8 @@
     "website": "https://pixelwaveinfotech.com",
     'depends': ['base_vat', 'contacts'],
     'data': [
+        "security/security.xml",
+        "data/res_partner_data.xml",
         "views/res_partner_views.xml",
     ],
     'assets': {
