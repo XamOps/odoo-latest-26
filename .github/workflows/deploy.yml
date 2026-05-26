@@ -18,8 +18,8 @@ jobs:
         run: |
           ssh -tt ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             cd /opt/odoo/custom_addons/odoo-latest-26
-            git fetch origin main
-            git reset --hard origin/main
+            git fetch origin preprod
+            git reset --hard origin/preprod
             nohup sudo systemctl restart odoo &
             exit
           EOF
