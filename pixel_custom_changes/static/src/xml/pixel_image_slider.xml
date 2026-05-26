@@ -29,7 +29,7 @@
                 </t>
             </div>
             <div t-else="" class="pixel_slider_empty">
-                <span>No images to display. Upload images in the 'Manage Images' tab.</span>
+                <span>No images to display. Upload images in the ' Manage Images ' tab.</span>
             </div>
         </div>
     </t>
