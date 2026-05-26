@@ -17,7 +17,7 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh -tt ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd /opt/odoo/odoo-server
+            cd /opt/odoo/community
             git pull origin main
             sudo systemctl restart odoo
             exit
