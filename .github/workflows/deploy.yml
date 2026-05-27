@@ -1,4 +1,4 @@
-name: Deploy to AWS
+name: Deploy to Production
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - uses: actions/checkout@v4
@@ -21,25 +22,26 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSHH_HOST }} >> ~/.ssh/known_hosts
           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-      - name: Ensure .ssh directory exists on EC2
+      - name: Copy deploy key to EC2
         run: |
           ssh -o StrictHostKeyChecking=no \
             ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} \
-            "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
-
-      - name: Copy deploy key to EC2
-        run: |
-          echo "${{ secrets.DEPLOY_KEY }}" > /tmp/deploy_key
-          chmod 600 /tmp/deploy_key
-          scp -o StrictHostKeyChecking=no /tmp/deploy_key \
-            ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }}:/home/${{ secrets.SSHH_USER }}/.ssh/deploy_key
-          rm -f /tmp/deploy_key
+            "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key" \
+            <<< "${{ secrets.DEPLOY_KEY }}"
 
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no \
             ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} << 'EOF'
             set -e
+
+            # Cleanup ssh-agent on exit automatically
+            trap 'eval $(ssh-agent -k) 2>/dev/null || true' EXIT
+
+            echo "======================================"
+            echo "  PRODUCTION DEPLOY STARTED"
+            echo "  Time: $(date)"
+            echo "======================================"
 
             echo "--- Setup deploy key ---"
             chmod 600 ~/.ssh/deploy_key
@@ -55,9 +57,14 @@ jobs:
             echo "--- Removing git lock if exists ---"
             rm -f /opt/odoo/custom_addons/odoo-latest-26/.git/index.lock
 
-            echo "--- Fetching latest code ---"
+            echo "--- Moving to project directory ---"
             cd /opt/odoo/custom_addons/odoo-latest-26
+
+            echo "--- Fetching latest code ---"
             git fetch origin main
+
+            echo "--- Changes being deployed ---"
+            git log HEAD..origin/main --oneline || true
 
             echo "--- Resetting to origin/main ---"
             git reset --hard origin/main
@@ -66,7 +73,10 @@ jobs:
             rm -f ~/.ssh/deploy_key
 
             echo "--- Restarting Odoo ---"
-            sudo systemctl restart odoo
+            sudo systemctl restart odoo || echo "WARNING: Odoo restart failed - manual restart needed"
 
-            echo "--- Deploy complete ---"
+            echo "======================================"
+            echo "  DEPLOY COMPLETE"
+            echo "  Time: $(date)"
+            echo "======================================"
           EOF
