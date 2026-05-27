@@ -22,27 +22,29 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          TOKEN="${{ secrets.GIT_TOKEN }}"
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} \
-            "sudo bash -c '
-              set -e
-              echo --- Removing git lock if exists ---
-              rm -f /opt/odoo/custom_addons/odoo-latest-26/.git/index.lock
+            "cat > /tmp/deploy.sh" << EOF
+          #!/bin/bash
+          set -e
+          echo "--- Removing git lock if exists ---"
+          sudo rm -f /opt/odoo/custom_addons/odoo-latest-26/.git/index.lock
 
-              echo --- Fetching latest code ---
-              cd /opt/odoo/custom_addons/odoo-latest-26
+          echo "--- Fetching latest code ---"
+          cd /opt/odoo/custom_addons/odoo-latest-26
+          sudo git remote set-url origin https://oauth2:${{ secrets.GIT_TOKEN }}@github.com/XamOps/odoo-latest-26.git
+          sudo git fetch origin main
 
-              git remote set-url origin https://oauth2:'"$TOKEN"'@github.com/XamOps/odoo-latest-26.git
-              git fetch origin main
+          echo "--- Resetting to origin/main ---"
+          sudo git reset --hard origin/main
 
-              echo --- Resetting to origin/main ---
-              git reset --hard origin/main
+          echo "--- Cleaning remote url ---"
+          sudo git remote set-url origin https://github.com/XamOps/odoo-latest-26.git
 
-              echo --- Resetting remote url ---
-              git remote set-url origin https://github.com/XamOps/odoo-latest-26.git
+          echo "--- Restarting Odoo ---"
+          sudo systemctl restart odoo
 
-              echo --- Restarting Odoo service ---
-              systemctl restart odoo
+          echo "--- Deploy complete ---"
+          EOF
 
-              echo --- Deploy complete ---
-            '"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} \
+            "bash /tmp/deploy.sh && rm -f /tmp/deploy.sh"
