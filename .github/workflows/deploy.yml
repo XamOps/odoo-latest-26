@@ -21,12 +21,18 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSHH_HOST }} >> ~/.ssh/known_hosts
           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
+      - name: Ensure .ssh directory exists on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+            ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} \
+            "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
+
       - name: Copy deploy key to EC2
         run: |
           echo "${{ secrets.DEPLOY_KEY }}" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
           scp -o StrictHostKeyChecking=no /tmp/deploy_key \
-            ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }}:/home/ubuntu/.ssh/deploy_key
+            ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }}:/home/${{ secrets.SSHH_USER }}/.ssh/deploy_key
           rm -f /tmp/deploy_key
 
       - name: Deploy to EC2
