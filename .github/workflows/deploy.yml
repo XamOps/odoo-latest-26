@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup SSH Agent (EC2 access)
+      - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: |
@@ -30,15 +30,18 @@ jobs:
             ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} << 'EOF'
             set -e
 
+            echo "--- Adding github.com to known_hosts ---"
+            ssh-keyscan -H github.com | sudo tee -a /root/.ssh/known_hosts > /dev/null
+
             echo "--- Removing git lock if exists ---"
             sudo rm -f /opt/odoo/custom_addons/odoo-latest-26/.git/index.lock
 
             echo "--- Fetching latest code ---"
             cd /opt/odoo/custom_addons/odoo-latest-26
-            sudo -E git fetch origin main
+            sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK git fetch origin main
 
             echo "--- Resetting to origin/main ---"
-            sudo -E git reset --hard origin/main
+            sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK git reset --hard origin/main
 
             echo "--- Restarting Odoo ---"
             sudo systemctl restart odoo
