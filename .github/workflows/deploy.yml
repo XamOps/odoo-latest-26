@@ -15,9 +15,13 @@ jobs:
         run: |
           ssh-keyscan -H ${{ secrets.SSHH_HOST }} >> ~/.ssh/known_hosts
       - name: Deploy to EC2
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SSHH_USER: ${{ secrets.SSHH_USER }}
+          SSHH_HOST: ${{ secrets.SSHH_HOST }}
         run: |
-          ssh -T ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} \
+          ssh -T $SSHH_USER@$SSHH_HOST \
             "cd /opt/odoo/custom_addons/odoo-latest-26 && \
-             git fetch https://${{ secrets.GIT_TOKEN }}@github.com/XamOps/odoo-latest-26.git main && \
+             git fetch https://$GIT_TOKEN@github.com/XamOps/odoo-latest-26.git main && \
              git reset --hard FETCH_HEAD && \
              sudo systemctl restart odoo"
