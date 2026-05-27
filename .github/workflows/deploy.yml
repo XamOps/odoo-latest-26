@@ -1,10 +1,13 @@
 name: Deploy to AWS
+
 on:
   push:
     branches: [main]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -18,11 +21,24 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSHH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to EC2
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
-          ssh ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} << 'EOF'
-            sudo rm -f /opt/odoo/custom_addons/odoo-latest-26/.git/index.lock
-            cd /opt/odoo/custom_addons/odoo-latest-26
-            sudo git -c credential.helper='!f() { echo username=git; echo password=${{ secrets.GIT_TOKEN }}; }; f' fetch origin main
-            sudo git reset --hard origin/main
-            sudo systemctl restart odoo
+          ssh ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} \
+            GIT_TOKEN="$GIT_TOKEN" \
+            bash -s << 'EOF'
+              echo "--- Removing git lock if exists ---"
+              sudo rm -f /opt/odoo/custom_addons/odoo-latest-26/.git/index.lock
+
+              echo "--- Fetching latest code ---"
+              cd /opt/odoo/custom_addons/odoo-latest-26
+              sudo git -c credential.helper="!f() { echo username=git; echo password=$GIT_TOKEN; }; f" fetch origin main
+
+              echo "--- Resetting to origin/main ---"
+              sudo git reset --hard origin/main
+
+              echo "--- Restarting Odoo service ---"
+              sudo systemctl restart odoo
+
+              echo "--- Deploy complete ---"
           EOF
