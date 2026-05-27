@@ -22,7 +22,7 @@ jobs:
           ssh ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} << 'EOF'
             sudo rm -f /opt/odoo/custom_addons/odoo-latest-26/.git/index.lock
             cd /opt/odoo/custom_addons/odoo-latest-26
-            sudo git fetch origin main
+            sudo git -c credential.helper='!f() { echo username=git; echo password=${{ secrets.GIT_TOKEN }}; }; f' fetch origin main
             sudo git reset --hard origin/main
             sudo systemctl restart odoo
           EOF
