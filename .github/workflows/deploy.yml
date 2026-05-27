@@ -18,8 +18,8 @@ jobs:
         run: |
           ssh -tt ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} << 'EOF'
             cd /opt/odoo/custom_addons/odoo-latest-26
-            git fetch origin main
-            git reset --hard origin/main
-            nohup sudo systemctl restart odoo &
+            git fetch https://${{ secrets.GIT_TOKEN }}@github.com/XamOps/odoo-latest-26.git main
+            git reset --hard FETCH_HEAD
+            sudo systemctl restart odoo
             exit
           EOF
