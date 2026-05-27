@@ -23,6 +23,13 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSHH_HOST }} >> ~/.ssh/known_hosts
           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
+      - name: Debug SSH Agent
+        run: |
+          echo "--- Keys loaded in agent ---"
+          ssh-add -l
+          echo "--- Testing GitHub auth ---"
+          ssh -T git@github.com || true
+
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no \
@@ -32,16 +39,28 @@ jobs:
 
             echo "--- Adding github.com to known_hosts ---"
             ssh-keyscan -H github.com | sudo tee -a /root/.ssh/known_hosts > /dev/null
+            ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>/dev/null || true
+
+            echo "--- Check agent forwarding ---"
+            ssh-add -l || echo "NO KEYS IN FORWARDED AGENT"
+
+            echo "--- Test GitHub connection as ubuntu ---"
+            ssh -T git@github.com || true
 
             echo "--- Removing git lock if exists ---"
             sudo rm -f /opt/odoo/custom_addons/odoo-latest-26/.git/index.lock
 
             echo "--- Fetching latest code ---"
             cd /opt/odoo/custom_addons/odoo-latest-26
-            sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK git fetch origin main
+
+            echo "--- Run git as ubuntu user (not sudo) ---"
+            git fetch origin main
 
             echo "--- Resetting to origin/main ---"
-            sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK git reset --hard origin/main
+            git reset --hard origin/main
+
+            echo "--- Fix permissions ---"
+            sudo chown -R ubuntu:ubuntu /opt/odoo/custom_addons/odoo-latest-26
 
             echo "--- Restarting Odoo ---"
             sudo systemctl restart odoo
