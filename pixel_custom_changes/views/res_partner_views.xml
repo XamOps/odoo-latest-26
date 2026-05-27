@@ -20,9 +20,21 @@
             </xpath>
             <xpath expr="//div[@class='o_address_format']" position="after">
                 <field name="vat"/>
-				<field name="designation"/>
-                <field name="department"/>
                 <field name="description"/>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']//form//field[@name='email']" position="after">
+                <label for="department"/>
+				<field name="department"/>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']//form//field[@name='phone']" position="attributes">
+				<attribute name="style">width: 43% !important;</attribute>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']//form//field[@name='phone']" position="after">
+				<label for="linkedin_url"/>
+				<field name="linkedin_url" widget="url"/>
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="access_user_ids" widget="many2many_tags"/>
             </xpath>
         </field>
     </record>
