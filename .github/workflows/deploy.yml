@@ -23,18 +23,26 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} bash << EOF
+            set -e
+
+            echo "--- Writing git credentials ---"
+            echo "https://oauth2:${{ secrets.GIT_TOKEN }}@github.com" | sudo tee /root/.git-credentials > /dev/null
+            sudo git config --global credential.helper store
+
             echo "--- Removing git lock if exists ---"
             sudo rm -f /opt/odoo/custom_addons/odoo-latest-26/.git/index.lock
 
             echo "--- Fetching latest code ---"
             cd /opt/odoo/custom_addons/odoo-latest-26
-
-            sudo git remote set-url origin https://oauth2:${{ secrets.GIT_TOKEN }}@github.com/XamOps/odoo-latest-26.git
-
+            sudo git remote set-url origin https://github.com/XamOps/odoo-latest-26.git
             sudo git fetch origin main
 
             echo "--- Resetting to origin/main ---"
             sudo git reset --hard origin/main
+
+            echo "--- Cleaning up credentials ---"
+            sudo rm -f /root/.git-credentials
+            sudo git config --global --unset credential.helper
 
             echo "--- Restarting Odoo service ---"
             sudo systemctl restart odoo
