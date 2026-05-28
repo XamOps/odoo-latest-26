@@ -22,12 +22,12 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} \
-          GIT_TOKEN=${{ secrets.GIT_TOKEN }} bash << 'EOF'
-            set -e
-            cd /opt/odoo/custom_addons/odoo-latest-26
-            git remote set-url origin https://$GIT_TOKEN@github.com/XamOps/odoo-latest-26.git
-            git fetch origin main
-            git reset --hard origin/main
-            sudo systemctl restart odoo
-            echo "✅ Deploy Successful!"
-EOF
+          "GIT_TOKEN=${{ secrets.GIT_TOKEN }} bash -s" << 'EOF'
+          set -e
+          cd /opt/odoo/custom_addons/odoo-latest-26
+          git remote set-url origin https://$GIT_TOKEN@github.com/XamOps/odoo-latest-26.git
+          git fetch origin main
+          git reset --hard origin/main
+          sudo systemctl restart odoo
+          echo "Deploy Successful!"
+          EOF
