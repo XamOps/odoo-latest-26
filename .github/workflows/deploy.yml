@@ -1,43 +1,25 @@
-name: Deploy to PRODUCTION Server
-
+name: Deploy to AWS
 on:
   push:
     branches: [main]
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSHH_KEY }}
-
-      - name: Add EC2 to known_hosts
+      - name: Add host to known_hosts
         run: |
-          ssh-keyscan -H 13.201.82.219 >> ~/.ssh/known_hosts
-
-      - name: Deploy to PRODUCTION EC2
+          ssh-keyscan -H ${{ secrets.SSHH_HOST }} >> ~/.ssh/known_hosts
+      - name: Deploy to EC2
         run: |
-          ssh -tt -A ${{ secrets.SSHH_USER }}@13.201.82.219 bash << 'EOF'
-            set -e
-
-            echo "==> [PROD] Repo directory mein ja raha hoon..."
+          ssh -tt ${{ secrets.SSHH_USER }}@${{ secrets.SSHH_HOST }} << 'EOF'
             cd /opt/odoo/custom_addons/odoo-latest-26
-
-            echo "==> [PROD] Main branch fetch kar raha hoon..."
-            GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" \
-              git fetch origin main
-
-            echo "==> [PROD] Hard reset kar raha hoon origin/main pe..."
+            git fetch origin main
             git reset --hard origin/main
-
-            echo "==> [PROD] Odoo restart ho rahi hai..."
-            sudo systemctl restart odoo
-
-            echo "✅ PRODUCTION Deployment Successful!"
+            nohup sudo systemctl restart odoo &
+            exit
           EOF
