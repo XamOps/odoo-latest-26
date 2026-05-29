@@ -26,7 +26,7 @@
     """,
     "author": "Pixelwave Infotech",
     "website": "https://pixelwaveinfotech.com",
-    'depends': ['base_vat', 'contacts'],
+    'depends': ['base', 'base_vat', 'contacts'],
     'data': [
         "security/security.xml",
         "data/res_partner_data.xml",

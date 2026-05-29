@@ -6,7 +6,8 @@
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='date']" position="after">
-				<field name="group_ids" widget="many2many_tags" />
+				<field name="group_domain_ids" invisible="1"/>
+				<field name="group_ids" widget="many2many_tags" domain="[('id', 'in', group_domain_ids.ids)]"/>
 			</xpath>
         </field>
     </record>
@@ -17,8 +18,9 @@
         <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='alias_def']" position="after">
+				<field name="group_domain_ids" invisible="1"/>
 				<label for="group_ids" string="Department"/>
-				<field name="group_ids" widget="many2many_tags"/>
+				<field name="group_ids" widget="many2many_tags" domain="[('id', 'in', group_domain_ids)]"/>
 			</xpath>
         </field>
     </record>

@@ -7,7 +7,17 @@ class Project(models.Model):
     _inherit = 'project.project'
 
     # group_ids = fields.Many2many("res.groups", compute="_compute_group_ids", store=True)
+    group_domain_ids = fields.Many2many("res.groups", relation='project_project_res_groups',
+        column1='project_id', column2='group_id', compute='_compute_group_domain_ids')
     group_ids = fields.Many2many("res.groups", string="Department")
+
+    def _compute_group_domain_ids(self):
+        for record in self:
+            record.group_domain_ids = [
+                self.env.ref('pixel_custom_changes.group_department_devops').id,
+                self.env.ref('pixel_custom_changes.group_department_marketing').id,
+                self.env.ref('pixel_custom_changes.group_department_finance').id,
+                self.env.ref('pixel_custom_changes.group_department_business').id]
 
     # @api.depends('message_partner_ids', 'message_partner_ids.user_ids', 'message_partner_ids.user_ids.group_ids')
     # def _compute_group_ids(self):

@@ -34,8 +34,31 @@
 				<field name="linkedin_url" widget="url"/>
             </xpath>
             <xpath expr="//field[@name='category_id']" position="after">
+                <field name="status"/>
                 <field name="access_user_ids" widget="many2many_tags"/>
             </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_pixelwave" model="ir.ui.view">
+        <field name="name">res.partner.tree.custom.pixel</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='country_id']" position="after">
+				<field name="status" optional="show"/>
+			</xpath>
+        </field>
+    </record>
+
+    <record id="view_res_partner_filter_pixelwave" model="ir.ui.view">
+        <field name="name">res.partner.filter.custom.pixel</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='group_country']" position="after">
+				<filter name="status" string="Status" context="{'group_by': 'status'}"/>
+			</xpath>
         </field>
     </record>
 

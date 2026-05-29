@@ -16,6 +16,14 @@ class ResPartner(models.Model):
     mobile_no_2 = fields.Char()
     mobile_no_3 = fields.Char()
     access_user_ids = fields.Many2many('res.users')
+    status = fields.Selection([
+        ('green', 'GreenField'),
+        ('brown', 'BrownField'),
+        ('prospect', 'Prospect'),
+        ('chase', 'Chase'),
+        ('client', 'Client'),
+        ('whiteField', 'WhiteField')
+    ])
 
     @api.model
     def create(self, vals):
