@@ -18,8 +18,20 @@
             <xpath expr="//field[@name='vat']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//field[@name='l10n_in_gst_treatment']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='l10n_in_pan_entity_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='l10n_in_tan']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             <xpath expr="//div[@class='o_address_format']" position="after">
-                <field name="vat"/>
+                <field name="l10n_in_gst_treatment" invisible="'IN' not in fiscal_country_codes or not l10n_in_is_gst_registered_enabled" readonly="parent_id"/>
+				<field name="vat"/>
+				<field name="l10n_in_pan_entity_id" invisible="country_code != 'IN'" readonly="parent_id"/>
+                <field name="l10n_in_tan" invisible="country_code != 'IN' or not l10n_in_pan_entity_id" readonly="parent_id"/>
                 <field name="description"/>
             </xpath>
             <xpath expr="//page[@name='contact_addresses']//form//field[@name='email']" position="after">
