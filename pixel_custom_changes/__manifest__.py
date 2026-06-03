@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-#    Pixelwave Software
+#    Pixelwave Infotech
 #
 #    Copyright (C) 2026-TODAY Pixelwave Infotech(<https://www.pixelwaveinfotech.com>)
 #    Author: Milan Hirani(pixelwaveinfotech@gmail.com)
