@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-#    Pixelwave Software
+#    Pixelwave Infotech
 #
 #    Copyright (C) 2026-TODAY Pixelwave Infotech(<https://www.pixelwaveinfotech.com>)
 #    Author: Milan Hirani(pixelwaveinfotech@gmail.com)
@@ -26,9 +26,12 @@
     """,
     "author": "Pixelwave Infotech",
     "website": "https://pixelwaveinfotech.com",
-    'depends': ['base_vat', 'contacts'],
+    'depends': ['base', 'base_vat', 'contacts'],
     'data': [
+        "security/security.xml",
+        "data/res_partner_data.xml",
         "views/res_partner_views.xml",
+        "views/project_views.xml",
     ],
     'assets': {
         'web.assets_backend': [

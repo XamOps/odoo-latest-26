@@ -18,12 +18,59 @@
             <xpath expr="//field[@name='vat']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//field[@name='l10n_in_gst_treatment']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='l10n_in_pan_entity_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='l10n_in_tan']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             <xpath expr="//div[@class='o_address_format']" position="after">
-                <field name="vat"/>
-				<field name="designation"/>
-                <field name="department"/>
+                <field name="l10n_in_gst_treatment" invisible="'IN' not in fiscal_country_codes or not l10n_in_is_gst_registered_enabled" readonly="parent_id"/>
+				<field name="vat"/>
+				<field name="l10n_in_pan_entity_id" invisible="country_code != 'IN'" readonly="parent_id"/>
+                <field name="l10n_in_tan" invisible="country_code != 'IN' or not l10n_in_pan_entity_id" readonly="parent_id"/>
                 <field name="description"/>
             </xpath>
+            <xpath expr="//page[@name='contact_addresses']//form//field[@name='email']" position="after">
+                <label for="department"/>
+				<field name="department"/>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']//form//field[@name='phone']" position="attributes">
+				<attribute name="style">width: 43% !important;</attribute>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']//form//field[@name='phone']" position="after">
+				<label for="linkedin_url"/>
+				<field name="linkedin_url" widget="url"/>
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="status"/>
+                <field name="access_user_ids" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_pixelwave" model="ir.ui.view">
+        <field name="name">res.partner.tree.custom.pixel</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='country_id']" position="after">
+				<field name="status" optional="show"/>
+			</xpath>
+        </field>
+    </record>
+
+    <record id="view_res_partner_filter_pixelwave" model="ir.ui.view">
+        <field name="name">res.partner.filter.custom.pixel</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='group_country']" position="after">
+				<filter name="status" string="Status" context="{'group_by': 'status'}"/>
+			</xpath>
         </field>
     </record>
 

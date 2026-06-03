@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_edit_project_pixel" model="ir.ui.view">
+        <field name="name">project.project.form.custom.pixel</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date']" position="after">
+				<field name="group_domain_ids" invisible="1"/>
+				<field name="group_ids" widget="many2many_tags" domain="[('id', 'in', group_domain_ids.ids)]"/>
+			</xpath>
+        </field>
+    </record>
+
+    <record id="view_project_project_view_form_simplified_pixel" model="ir.ui.view">
+        <field name="name">project.project.form.simplified.pixel</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='alias_def']" position="after">
+				<field name="group_domain_ids" invisible="1"/>
+				<label for="group_ids" string="Department"/>
+				<field name="group_ids" widget="many2many_tags" domain="[('id', 'in', group_domain_ids)]"/>
+			</xpath>
+        </field>
+    </record>
+
+    <record id="view_project_filter_pixel" model="ir.ui.view">
+        <field name="name">project.project.filter.pixel</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_project_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='company']" position="after">
+				<filter string="Department" name="group_ids" context="{'group_by': 'group_ids'}" />
+			</xpath>
+        </field>
+    </record>
+
+</odoo>
