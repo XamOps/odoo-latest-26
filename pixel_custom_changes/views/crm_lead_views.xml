@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- inherit view of Lead Form : adding the custom change -->
+    <record id="crm_lead_view_form_pixel" model="ir.ui.view">
+        <field name="name">crm.lead.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='recurring_revenue']" position="replace">
+            </xpath>
+            <xpath expr="//span[hasclass('opacity-50')]" position="replace">
+            </xpath>
+            <xpath expr="//span[hasclass('opacity-50')][1]" position="replace">
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

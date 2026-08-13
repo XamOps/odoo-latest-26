@@ -5,6 +5,22 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+				<header>
+<!--					<button name="fetch_easylead_data"-->
+<!--								type="object"-->
+<!--								string="Fetch Easylead"-->
+<!--								class="btn-primary"/>-->
+<!--					<button name="fetch_apollo_data"-->
+<!--								type="object"-->
+<!--								string="Fetch Apollo"-->
+<!--								class="btn-primary"/>-->
+				</header>
+			</xpath>
+            <xpath expr="//field[@name='email']" position="after">
+				<field name="email_1" widget="email"/>
+				<field name="email_2" widget="email"/>
+			</xpath>
             <xpath expr="//field[@name='phone']" position="after">
 				<field name="mobile_no_1" widget="phone"/>
 				<field name="mobile_no_2" widget="phone"/>
@@ -18,24 +34,91 @@
             <xpath expr="//field[@name='vat']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//field[@name='l10n_in_gst_treatment']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='l10n_in_pan_entity_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='l10n_in_tan']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             <xpath expr="//div[@class='o_address_format']" position="after">
-                <field name="vat"/>
+                <field name="l10n_in_gst_treatment" invisible="'IN' not in fiscal_country_codes or not l10n_in_is_gst_registered_enabled" readonly="parent_id"/>
+				<field name="vat"/>
+				<field name="l10n_in_pan_entity_id" invisible="country_code != 'IN'" readonly="parent_id"/>
+                <field name="l10n_in_tan" invisible="country_code != 'IN' or not l10n_in_pan_entity_id" readonly="parent_id"/>
                 <field name="description"/>
             </xpath>
-            <xpath expr="//page[@name='contact_addresses']//form//field[@name='email']" position="after">
-                <label for="department"/>
-				<field name="department"/>
-            </xpath>
-            <xpath expr="//page[@name='contact_addresses']//form//field[@name='phone']" position="attributes">
-				<attribute name="style">width: 43% !important;</attribute>
-            </xpath>
-            <xpath expr="//page[@name='contact_addresses']//form//field[@name='phone']" position="after">
-				<label for="linkedin_url"/>
-				<field name="linkedin_url" widget="url"/>
-            </xpath>
+            <xpath expr="//page[@name='contact_addresses']//form//sheet//div[hasclass('align-items-baseline')]" position="replace">
+			</xpath>
+            <xpath expr="//page[@name='contact_addresses']//form//sheet//div[hasclass('align-items-baseline')][1]" position="replace">
+			</xpath>
+            <xpath expr="//page[@name='contact_addresses']//form//sheet//div[hasclass('align-items-baseline')][1]" position="replace">
+			</xpath>
+            <xpath expr="//page[@name='contact_addresses']//form//sheet//h3" position="after">
+				<group>
+					<group style="display: block !important;width: 100%;">
+						<div class="d-flex align-items-baseline">
+							<i class="fa fa-fw me-1 fa-envelope text-primary"
+							   title="Email"/>
+							<field name="email" widget="email" class="w-100"
+							       context="{'gravatar_image': True}"
+							       required="user_ids" placeholder="Email"/>
+							<field name="email_1" widget="email"/>
+							<field name="email_2" widget="email"/>
+						</div>
+						<div class="d-flex align-items-baseline">
+							<i class="fa fa-fw me-1 fa-phone text-primary"
+							   title="Phone"/>
+							<field name="phone" widget="phone" class="w-100"
+							       placeholder="Phone"/>
+							<field name="mobile_no_2" widget="phone"/>
+							<field name="mobile_no_3" widget="phone"/>
+						</div>
+						<div invisible="is_company or type != 'contact'"
+						     class="d-flex align-items-baseline">
+							<i class="fa fa-fw me-1 fa-suitcase text-primary"
+							   title="Position"/>
+							<field name="function" placeholder="Job title"/>
+						</div>
+						<div class="d-flex align-items-baseline">
+							<label for="department" string="Department"/>
+							<field name="department"/>
+						</div>
+						<div class="d-flex align-items-baseline">
+							<label for="linkedin_url" />
+							<field name="linkedin_url" widget="url"/>
+						</div>
+					</group>
+				</group>
+			</xpath>
             <xpath expr="//field[@name='category_id']" position="after">
+                <field name="status"/>
                 <field name="access_user_ids" widget="many2many_tags"/>
             </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_pixelwave" model="ir.ui.view">
+        <field name="name">res.partner.tree.custom.pixel</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='country_id']" position="after">
+				<field name="status" optional="show"/>
+			</xpath>
+        </field>
+    </record>
+
+    <record id="view_res_partner_filter_pixelwave" model="ir.ui.view">
+        <field name="name">res.partner.filter.custom.pixel</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='group_country']" position="after">
+				<filter name="status" string="Status" context="{'group_by': 'status'}"/>
+			</xpath>
         </field>
     </record>
 
@@ -56,4 +139,17 @@
 	<record id="contacts.action_contacts" model="ir.actions.act_window">
 		<field name="domain">[('is_company', '=', True)]</field>
 	</record>
+
+	<record id="model_res_partner_access" model="ir.actions.server">
+        <field name="name">Give Access</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="sequence">2</field>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">list,kanban,form</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                action = records.action_give_action()
+        </field>
+    </record>
 </odoo>

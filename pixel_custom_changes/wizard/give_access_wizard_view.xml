@@ -1,0 +1,19 @@
+<odoo>
+	<record id="view_give_access_wizard_form" model="ir.ui.view">
+		<field name="name">give.access.wizard.wizard.form</field>
+		<field name="model">give.access.wizard</field>
+		<field name="arch" type="xml">
+			<form string="Give Access">
+				<group>
+					<field name="access_users_ids" widget="many2many_tags"/>
+				</group>
+				<footer>
+					<button name="action_give_access"
+							string="Give Access" type="object"
+							class="btn-primary"/>
+					<button string="Close" special="cancel" class="btn-secondary"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+</odoo>

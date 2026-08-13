@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-#    Pixelwave Software
+#    Pixelwave Infotech
 #
 #    Copyright (C) 2026-TODAY Pixelwave Infotech(<https://www.pixelwaveinfotech.com>)
 #    Author: Milan Hirani(pixelwaveinfotech@gmail.com)
@@ -26,11 +26,17 @@
     """,
     "author": "Pixelwave Infotech",
     "website": "https://pixelwaveinfotech.com",
-    'depends': ['base_vat', 'contacts'],
+    'depends': ['base', 'base_vat', 'contacts', 'crm', 'hr_payroll', 'l10n_in_hr_payroll'],
     'data': [
         "security/security.xml",
+        "security/ir.model.access.csv",
         "data/res_partner_data.xml",
         "views/res_partner_views.xml",
+        "views/project_views.xml",
+        "views/crm_lead_views.xml",
+        "views/res_config_settings_views.xml",
+        'views/hr_employee_views.xml',
+        "wizard/give_access_wizard_view.xml",
     ],
     'assets': {
         'web.assets_backend': [
