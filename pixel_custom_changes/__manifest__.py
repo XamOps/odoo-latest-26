@@ -36,6 +36,8 @@
         "views/crm_lead_views.xml",
         "views/res_config_settings_views.xml",
         'views/hr_employee_views.xml',
+        'views/hr_version_view.xml',
+        'views/hr_leave_view.xml',
         "wizard/give_access_wizard_view.xml",
     ],
     'assets': {
