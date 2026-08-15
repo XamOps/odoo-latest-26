@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   deploy:
-    runs-on: [self-hosted, prod]        # <-- ye line change hui
+    runs-on: [self-hosted, prod]
     steps:
       - name: Checkout / Pull latest code
         run: |
@@ -22,7 +22,7 @@ jobs:
 
       - name: Upgrade Odoo modules
         run: |
-          sudo -u odoo PYTHONPATH=/opt/odoo/community /opt/odoo/odoo-venv/bin/python -m odoo -c /etc/odoo.conf -d odoo_19 -u pixel_custom_changes,pixel_currency_format --stop-after-init
+          sudo -u odoo PYTHONPATH=/opt/odoo/community /opt/odoo/odoo-venv/bin/python -m odoo -c /etc/odoo.conf -d odoo_19 -u pixel_custom_changes,pixel_currency_format --stop-after-init --no-http
 
       - name: Restart Odoo service
         run: |
