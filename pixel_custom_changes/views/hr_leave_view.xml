@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<record id="hr_leave_view_form_pixel" model="ir.ui.view">
+        <field name="name">hr.leave.view.form.pixel</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_approve']" position="after">
+				<field name="is_hr_manager" invisible="1"/>
+			</xpath>
+            <xpath expr="//button[@name='action_approve']" position="attributes">
+				<attribute name="invisible">not can_approve or not id or not is_hr_manager</attribute>
+			</xpath>
+            <xpath expr="//button[@name='action_approve'][2]" position="attributes">
+				<attribute name="invisible">not can_validate or can_approve or not id or not is_hr_manager</attribute>
+			</xpath>
+            <xpath expr="//button[@name='action_refuse']" position="attributes">
+				<attribute name="invisible">not can_refuse or not id or not is_hr_manager</attribute>
+			</xpath>
+        </field>
+    </record>
+</odoo>

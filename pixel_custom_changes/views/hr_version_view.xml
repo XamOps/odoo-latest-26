@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<record id="hr_contract_template_view_form_pixel" model="ir.ui.view">
+        <field name="name">hr.contract.template.view.form.inherit.l10_in_hr_payroll.pixel</field>
+        <field name="model">hr.version</field>
+        <field name="inherit_id" ref="l10n_in_hr_payroll.hr_contract_template_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='l10n_in_standard_allowance']"
+	               position="attributes">
+				<attribute name="string">Special Allowance</attribute>
+			</xpath>
+			<xpath expr="//label[@for='l10n_in_leave_travel_allowance']"
+	               position="attributes">
+				<attribute name="string">Conveyance Allowance</attribute>
+			</xpath>
+        </field>
+    </record>
+</odoo>

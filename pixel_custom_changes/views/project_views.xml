@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='date']" position="after">
 				<field name="group_domain_ids" invisible="1"/>
-				<field name="group_ids" widget="many2many_tags" domain="[('id', 'in', group_domain_ids.ids)]"/>
+				<field name="group_ids" widget="many2many_tags" domain="[('id', 'in', group_domain_ids)]"/>
 			</xpath>
         </field>
     </record>

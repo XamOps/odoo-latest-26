@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="view_employee_form_inherit_personal" model="ir.ui.view">
+        <field name="name">hr.employee.form.personal.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='personal_information']" position="attributes">
+                <attribute name="invisible">
+                    not is_current_user_employee and not is_hr_manager
+                </attribute>
+            </xpath>
+            <xpath expr="//page[@name='hr_settings']" position="attributes">
+                <attribute name="invisible">
+                    not is_hr_manager
+                </attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_open_versions']" position="attributes">
+                <attribute name="invisible">
+                    not is_current_user_employee and not is_hr_manager
+                </attribute>
+            </xpath>
+            <xpath expr="//chatter" position="attributes">
+                <attribute name="invisible">
+                    not is_current_user_employee and not is_hr_manager
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="payroll_hr_employee_view_form_inherit_personal" model="ir.ui.view">
+        <field name="name">hr.employee.payroll.form.personal.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_payroll.payroll_hr_employee_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='salary_attachment']" position="attributes">
+                <attribute name="invisible">
+                    not is_current_user_employee and not is_hr_manager
+                </attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_open_payslips']" position="attributes">
+                <attribute name="invisible">
+                    (not is_current_user_employee and not is_hr_manager) or payslip_count == 0
+                </attribute>
+            </xpath>
+            <xpath expr="//button[@name='%(hr_payroll.action_hr_payslip_new)d']" position="attributes">
+                <attribute name="invisible">
+                    (not is_current_user_employee and not is_hr_manager) or not employee_id or payslip_count or not contract_date_start
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_employee_view_form_inherit_form_inherit_personal" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.personal.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_holidays_attendance.hr_employee_view_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(hr_holidays_attendance.hr_leave_allocation_overtime_manager_action)d']" position="attributes">
+                <attribute name="invisible">
+                    not is_hr_manager or total_overtime &lt;= 1 or not active
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_hr_employee_view_form_inherit_form_inherit_personal" model="ir.ui.view">
+        <field name="name">hr.hr.employee.form.inherit.personal.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_gamification.hr_hr_employee_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(hr_gamification.action_reward_wizard)d']" position="attributes">
+                <attribute name="invisible">not is_hr_manager</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_employee_form_leave_inherit_form_inherit_personal" model="ir.ui.view">
+        <field name="name">hr.employee.form.leave.inherit.personal.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_holidays.view_employee_form_leave_inherit"/>
+        <field name="arch" type="xml">
+			<xpath expr="//button[@name='action_time_off_dashboard']"
+	               position="attributes">
+				<attribute name="invisible">
+					(not is_current_user_employee and not is_hr_manager) or not show_leaves or company_id not in allowed_company_ids
+		        </attribute>
+			</xpath>
+        </field>
+    </record>
+
+    <record id="hr_employee_view_form_inherit_pixel" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.personal.inherit.pixel</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_work_entry.hr_employee_view_form"/>
+        <field name="arch" type="xml">
+			<xpath expr="//button[@name='action_open_work_entries']"
+	               position="attributes">
+				<attribute name="invisible">
+					(not is_current_user_employee and not is_hr_manager) or not has_work_entries
+		        </attribute>
+			</xpath>
+        </field>
+    </record>
+
+    <record id="hr_employee_view_form_in_inherit_pixel" model="ir.ui.view">
+        <field name="name">hr.employee.form.in.inherit.pixel</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="l10n_in_hr_payroll.hr_employee_view_form_in_inherit"/>
+        <field name="arch" type="xml">
+			<xpath expr="//label[@for='l10n_in_standard_allowance']"
+	               position="attributes">
+				<attribute name="string">Special Allowance</attribute>
+			</xpath>
+			<xpath expr="//label[@for='l10n_in_leave_travel_allowance']"
+	               position="attributes">
+				<attribute name="string">Conveyance Allowance</attribute>
+			</xpath>
+			<xpath expr="//separator[@name='benefits']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//group[@name='payroll_group']/group[3]/div[7]"
+				   position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//label[@for='l10n_in_phone_subscription']"
+				   position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//group[@name='payroll_group']/group[3]/div[8]"
+				   position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//label[@for='l10n_in_internet_subscription']"
+				   position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//group[@name='payroll_group']/group[3]/div[9]"
+				   position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//label[@for='l10n_in_meal_voucher_amount']"
+				   position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//group[@name='payroll_group']/group[3]/div[10]"
+				   position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//label[@for='l10n_in_company_transport']"
+				   position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+        </field>
+    </record>
+</odoo>

@@ -34,8 +34,12 @@ function abbreviateNumber(value) {
  */
 patch(AnimatedNumber.prototype, {
     format(value) {
+        var isCrm = false;
+        if (this.env.model.config.resModel == 'crm.lead'){
+            isCrm = true;
+        }
         const numVal = typeof value === "string" ? parseFloat(value) : value;
-        if (!isNaN(numVal) && Math.abs(numVal) >= 1_000) {
+        if (isCrm && !isNaN(numVal) && Math.abs(numVal) >= 1_000) {
             if (this.currencyId) {
                 const currency = getCurrency(this.currencyId);
                 const symbol = currency ? currency.symbol : "";
@@ -56,8 +60,9 @@ patch(AnimatedNumber.prototype, {
  * Patches the monetary formatter used by list footers and field widgets.
  */
 registry.category("formatters").add("monetary", function (value, options) {
+    const isCrm = window.location.href.includes("odoo/crm");
     const numVal = typeof value === "string" ? parseFloat(value) : value;
-    if (isNaN(numVal) || Math.abs(numVal) < 1_000) {
+    if (!isCrm || isNaN(numVal) || Math.abs(numVal) < 1_000) {
         return originalFormatMonetary(value, options);
     }
 

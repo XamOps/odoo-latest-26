@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_form_pixel" model="ir.ui.view">
+		<field name="name">Res Config Settings Form</field>
+		<field name="model">res.config.settings</field>
+		<field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//block[@name='integration']" position="inside">
+				<setting string="Easyleads" id="easylead_api"
+			             help="Easylead api integration credential.">
+					<div>
+						<div class="content-group mt16">
+							<label for="easylead_url" string="Url"
+						           class="o_light_label mr8"/>
+							<field name="easylead_url"/>
+						</div>
+						<div class="content-group">
+							<label for="easylead_api_key" string="Api Key"
+						           class="o_light_label mr8"/>
+							<field name="easylead_api_key"/>
+						</div>
+					</div>
+				</setting>
+				<setting string="Apollo" id="apollo_api"
+			             help="Apollo api integration credential.">
+					<div>
+						<div class="content-group mt16">
+							<label for="apollo_url" string="Url"
+						           class="o_light_label mr8"/>
+							<field name="apollo_url"/>
+						</div>
+						<div class="content-group">
+							<label for="apollo_api_key" string="Api Key"
+						           class="o_light_label mr8"/>
+							<field name="apollo_api_key"/>
+						</div>
+					</div>
+				</setting>
+			</xpath>
+        </field>
+    </record>
+</odoo>
