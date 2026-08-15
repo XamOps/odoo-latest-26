@@ -7,14 +7,6 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Debug - check user
-        run: |
-          whoami
-          id
-          echo "PATH: $PATH"
-          which sudo
-          type sudo
-
       - name: Checkout / Pull latest code
         run: |
           cd /opt/odoo/custom_addons/odoo-latest-26
