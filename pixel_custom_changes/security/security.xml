@@ -51,7 +51,7 @@
         <record id="contact_access_rule" model="ir.rule">
             <field name="name">Contact Access</field>
             <field name="model_id" ref="base.model_res_partner"/>
-            <field name="domain_force">['|', ('access_user_ids', 'in', user.ids), ('id', '=', user.partner_id)]</field>
+            <field name="domain_force">['|', ('access_user_ids', 'in', user.ids), ('id', 'in', user.partner_access_ids.ids + [2])]</field>
 			<field name="groups" eval="[Command.link(ref('base.group_user'))]"/>
         </record>
 
