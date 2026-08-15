@@ -1,14 +1,11 @@
 name: Deploy Odoo to Production
-
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: self-hosted
-
     steps:
       - name: Checkout / Pull latest code
         run: |
@@ -22,6 +19,10 @@ jobs:
           cd /opt/odoo/custom_addons/odoo-latest-26
           echo "Latest commit on server:"
           git log -1 --pretty=format:"Commit: %H%nAuthor: %an%nDate: %ad%nMessage: %s"
+
+      - name: Upgrade Odoo modules
+        run: |
+          sudo -u odoo PYTHONPATH=/opt/odoo/community /opt/odoo/odoo-venv/bin/python -m odoo -c /etc/odoo.conf -d odoo_19 -u pixel_custom_changes,pixel_currency_format --stop-after-init
 
       - name: Restart Odoo service
         run: |
