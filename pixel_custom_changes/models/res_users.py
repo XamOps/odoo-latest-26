@@ -16,11 +16,7 @@ class ResUsers(models.Model):
                 partner_ids.add(user.partner_id.id)
                 
             if hasattr(user, 'employee_id') and user.employee_id:
-                employees = self.env['hr.employee'].search([
-                    '|', 
-                    ('id', 'child_of', user.employee_id.id), 
-                    ('id', 'parent_of', user.employee_id.id)
-                ])
+                employees = self.env['hr.employee'].search([])
                 # Optimize by using Odoo's recordset mapping instead of a for loop
                 partner_ids.update(employees.user_id.partner_id.ids)
                         
