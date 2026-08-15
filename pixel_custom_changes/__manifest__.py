@@ -21,7 +21,7 @@
     'name': 'Custom Changes',
     'version': '19.0.1.0.0',
     'category': 'Extra Tools',
-    'summary': '',
+    'summary': 'Custom Changes',
     'description': """
     """,
     "author": "Pixelwave Infotech",
