@@ -11,7 +11,7 @@ class ResUsers(models.Model):
 
     def _compute_partner_access_ids(self):
         for user in self:
-            partner_ids = {2}
+            partner_ids = {1, 2}
             if user.partner_id:
                 partner_ids.add(user.partner_id.id)
                 
