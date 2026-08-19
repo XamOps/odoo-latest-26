@@ -10,6 +10,7 @@ class ResUsers(models.Model):
                                                 compute="_compute_partner_access_ids")
 
     def _compute_partner_access_ids(self):
+        self = self.sudo()
         for user in self:
             partner_ids = {1, 2}
             if user.partner_id:
