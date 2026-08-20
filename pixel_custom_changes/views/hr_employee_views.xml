@@ -17,6 +17,11 @@
                     not is_hr_manager
                 </attribute>
             </xpath>
+            <xpath expr="//page[@name='payroll_information']" position="attributes">
+                <attribute name="invisible">
+                    not is_current_user_employee and not is_hr_manager
+                </attribute>
+            </xpath>
             <xpath expr="//button[@name='action_open_versions']" position="attributes">
                 <attribute name="invisible">
                     not is_current_user_employee and not is_hr_manager
