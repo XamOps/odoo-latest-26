@@ -21,7 +21,7 @@
     'name': 'Custom Changes',
     'version': '19.0.1.0.0',
     'category': 'Extra Tools',
-    'summary': 'Custom Changes',
+    'summary': '',
     'description': """
     """,
     "author": "Pixelwave Infotech",
@@ -33,7 +33,7 @@
         "data/res_partner_data.xml",
         "views/res_partner_views.xml",
         "views/project_views.xml",
-        "views/crm_lead_views.xml",
+        # "views/crm_lead_views.xml",
         "views/res_config_settings_views.xml",
         'views/hr_employee_views.xml',
         'views/hr_version_view.xml',
