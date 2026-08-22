@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<record id="view_hr_payslip_form_pixel" model="ir.ui.view">
+        <field name="name">hr.payslip.form.pixel</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_payslip_done']" position="attributes">
+				<attribute name="groups">pixel_custom_changes.group_hr_payroll_only_manager,hr_payroll.group_hr_payroll_manager</attribute>
+			</xpath>
+            <xpath expr="//button[@name='action_payslip_paid']" position="attributes">
+				<attribute name="groups">pixel_custom_changes.group_hr_payroll_only_manager,hr_payroll.group_hr_payroll_manager</attribute>
+			</xpath>
+            <xpath expr="//button[@name='action_payslip_payment_report']" position="attributes">
+				<attribute name="groups">pixel_custom_changes.group_hr_payroll_only_manager,hr_payroll.group_hr_payroll_manager</attribute>
+			</xpath>
+            <xpath expr="//button[@name='refund_sheet']" position="attributes">
+				<attribute name="groups">pixel_custom_changes.group_hr_payroll_only_manager,hr_payroll.group_hr_payroll_manager</attribute>
+			</xpath>
+            <xpath expr="//button[@name='refund_sheet'][2]" position="attributes">
+				<attribute name="groups">pixel_custom_changes.group_hr_payroll_only_manager,hr_payroll.group_hr_payroll_manager</attribute>
+			</xpath>
+            <xpath expr="//button[@name='action_payslip_draft']" position="attributes">
+				<attribute name="groups">pixel_custom_changes.group_hr_payroll_only_manager,hr_payroll.group_hr_payroll_manager</attribute>
+			</xpath>
+            <xpath expr="//button[@name='action_payslip_unpaid']" position="attributes">
+				<attribute name="groups">pixel_custom_changes.group_hr_payroll_only_manager,hr_payroll.group_hr_payroll_manager</attribute>
+			</xpath>
+            <xpath expr="//button[@name='compute_sheet'][2]" position="attributes">
+				<attribute name="groups">pixel_custom_changes.group_hr_payroll_only_manager,hr_payroll.group_hr_payroll_manager</attribute>
+			</xpath>
+            <xpath expr="//button[@name='action_payslip_cancel']" position="attributes">
+				<attribute name="groups">pixel_custom_changes.group_hr_payroll_only_manager,hr_payroll.group_hr_payroll_manager</attribute>
+			</xpath>
+        </field>
+    </record>
+</odoo>

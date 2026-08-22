@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="pixel_custom_changes.PayslipListView_pixel" t-inherit="hr_payroll.PayslipListView" t-inherit-mode="extension">
+        <xpath expr="//t[@t-set-slot='control-panel-create-button']//button" position="attributes">
+			<attribute name="t-if" add="is_canCreatePayRun" separator="&amp;&amp;"/>
+		</xpath>
+    </t>
+
+    <t t-name="pixel_custom_changes.PayslipListView_Buttons_pixel" t-inherit="hr_payroll.PayslipListView.Buttons" t-inherit-mode="extension">
+        <xpath expr="//button[@t-on-click='createNewPayRun']" position="attributes">
+            <attribute name="t-if" add="is_canCreatePayRun" separator="&amp;&amp;"/>
+        </xpath>
+    </t>
+</templates>

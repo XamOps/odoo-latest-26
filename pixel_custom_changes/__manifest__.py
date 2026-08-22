@@ -38,10 +38,14 @@
         'views/hr_employee_views.xml',
         'views/hr_version_view.xml',
         'views/hr_leave_view.xml',
+        'views/hr_payslip_view.xml',
         "wizard/give_access_wizard_view.xml",
     ],
     'assets': {
         'web.assets_backend': [
+            'pixel_custom_changes/static/src/**/*',
+            'pixel_custom_changes/static/src/js/hr_payslip_list_controller.js',
+            'pixel_custom_changes/static/src/xml/hr_payslip_list_controller.xml',
         ],
     },
     'installable': True,
