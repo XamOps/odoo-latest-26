@@ -43,9 +43,11 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'pixel_custom_changes/static/src/**/*',
+            # 'pixel_custom_changes/static/src/**/*',
             'pixel_custom_changes/static/src/js/hr_payslip_list_controller.js',
+            'pixel_custom_changes/static/src/js/payslip_batch.js',
             'pixel_custom_changes/static/src/xml/hr_payslip_list_controller.xml',
+            'pixel_custom_changes/static/src/xml/payslip_batch.xml',
         ],
     },
     'installable': True,
