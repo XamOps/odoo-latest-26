@@ -22,7 +22,7 @@
     'version': '19.0.1.0.0',
     'category': 'Extra Tools',
     'summary': '',
-    'description': """
+    'description': """ Custom Changes
     """,
     "author": "Pixelwave Infotech",
     "website": "https://pixelwaveinfotech.com",
