@@ -45,9 +45,9 @@
                 </div>
 
                 <t t-set="is_invalid" t-value="o._is_invalid()"/>
-                <div t-if="is_invalid">
+                <!-- <div t-if="is_invalid">
                     <strong id="invalid_warning"><span t-out="is_invalid">This payslip is not validated. This is not a legal document.</span></strong>
-                </div>
+                </div> -->
                 <div t-else="">
                     <div class="oe_structure"/>
                 </div>
@@ -253,7 +253,7 @@
                     </div>
                 
                     <!-- SYSTEM GENERATED DOCUMENT -->
-                    <div style="font-size:15px; color:#666; text-align:center; margin-top:100px; line-height:16px;">
+                    <div style="font-size:15px; color:#666; text-align:center; margin-top:90px; line-height:16px;">
                         -- This is a system-generated document. --
                     </div>
             </div>
