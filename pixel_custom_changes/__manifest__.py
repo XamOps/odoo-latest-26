@@ -39,6 +39,8 @@
         'views/hr_version_view.xml',
         'views/hr_leave_view.xml',
         'views/hr_payslip_view.xml',
+        'report/custom_payslip_report.xml',
+        'report/custom_payslip_action.xml',
         "wizard/give_access_wizard_view.xml",
     ],
     'assets': {
