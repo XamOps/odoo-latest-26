@@ -36,6 +36,8 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     activity_ids = fields.One2many(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    message_ids = fields.One2many(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
 
     @api.depends_context("uid")
     def _compute_access_flags(self):
