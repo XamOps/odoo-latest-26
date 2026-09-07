@@ -13,6 +13,19 @@ class HrEmployee(models.Model):
         compute="_compute_access_flags",
     )
 
+    # Inherited fields
+    version_id = fields.Many2one(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user"
+    )
+    current_date_version = fields.Date(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user"
+    )
+    version_ids = fields.One2many(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user"
+    )
+    versions_count = fields.Integer(groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    version_revision = fields.Char(groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+
     @api.depends_context("uid")
     def _compute_access_flags(self):
         current_employee = self.env.user.employee_id
