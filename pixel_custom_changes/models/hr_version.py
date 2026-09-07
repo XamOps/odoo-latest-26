@@ -8,3 +8,5 @@ class HrVersion(models.Model):
 
     date_version = fields.Date(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    origin_version_id = fields.Many2one(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
