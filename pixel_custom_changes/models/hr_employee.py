@@ -52,6 +52,26 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     message_attachment_count = fields.Integer(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    message_is_follower = fields.Boolean(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    message_follower_ids = fields.One2many(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    message_partner_ids = fields.Many2many(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    message_ids = fields.One2many(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    has_message = fields.Boolean(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    message_needaction = fields.Boolean(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    message_needaction_counter = fields.Integer(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    message_has_error = fields.Boolean(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    message_has_error_counter = fields.Integer(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    message_attachment_count = fields.Integer(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
 
     @api.depends_context("uid")
     def _compute_access_flags(self):
