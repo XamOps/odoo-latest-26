@@ -74,6 +74,10 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     message_main_attachment_id = fields.Many2one(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    activity_exception_decoration = fields.Selection(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    activity_exception_icon = fields.Char(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
 
     @api.depends_context("uid")
     def _compute_access_flags(self):
