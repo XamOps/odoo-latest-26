@@ -28,8 +28,6 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     exceptional_location_id = fields.Many2one(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    birthday = fields.Date(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     has_work_entries = fields.Boolean(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     structure_id = fields.Many2one(
@@ -91,6 +89,17 @@ class HrEmployee(models.Model):
     message_has_error_counter = fields.Integer(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     message_attachment_count = fields.Integer(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+
+    lang = fields.Selection(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    place_of_birth = fields.Char(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user", )
+    country_of_birth = fields.Many2one(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    birthday = fields.Date(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    birthday_public_display = fields.Boolean(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
 
     @api.depends_context("uid")
