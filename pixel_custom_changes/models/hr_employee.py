@@ -13,99 +13,10 @@ class HrEmployee(models.Model):
         compute="_compute_access_flags",
     )
 
-    # Inherited fields
-    version_id = fields.Many2one(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    current_date_version = fields.Date(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    version_ids = fields.One2many(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    versions_count = fields.Integer(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    version_revision = fields.Char(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    current_leave_id = fields.Many2one(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    exceptional_location_id = fields.Many2one(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    has_work_entries = fields.Boolean(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    structure_id = fields.Many2one(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_ids = fields.One2many(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_partner_ids = fields.Many2many(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    has_message = fields.Boolean(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_needaction = fields.Boolean(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_needaction_counter = fields.Integer(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_has_error = fields.Boolean(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_has_error_counter = fields.Integer(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_attachment_count = fields.Integer(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_main_attachment_id = fields.Many2one(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_ids = fields.One2many(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_state = fields.Selection(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_user_id = fields.Many2one(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_type_id = fields.Many2one(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_type_icon = fields.Char(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_date_deadline = fields.Date(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    my_activity_date_deadline = fields.Date(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_summary = fields.Char(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_exception_decoration = fields.Selection(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_exception_icon = fields.Char(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_is_follower = fields.Boolean(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_follower_ids = fields.One2many(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_partner_ids = fields.Many2many(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_ids = fields.One2many(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    has_message = fields.Boolean(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_needaction = fields.Boolean(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_needaction_counter = fields.Integer(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_has_error = fields.Boolean(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_has_error_counter = fields.Integer(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_attachment_count = fields.Integer(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-
-    lang = fields.Selection(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    place_of_birth = fields.Char(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user", )
-    country_of_birth = fields.Many2one(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    birthday = fields.Date(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    birthday_public_display = fields.Boolean(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-
     @api.depends_context("uid")
     def _compute_access_flags(self):
         current_employee = self.env.user.employee_id
-        is_manager = self.env.user.has_group("hr.group_hr_user") or self.env.user.has_group("base.group_system")
+        is_manager = self.env.user.has_group("pixel_custom_changes.group_hr_manager") or self.env.user.has_group("base.group_system")
 
         for employee in self:
             employee.is_current_user_employee = employee == current_employee
@@ -116,7 +27,7 @@ class HrEmployee(models.Model):
         res = super().get_view(view_id=view_id, view_type=view_type, **options)
         if view_type == "form":
             # is_officer = self.env.user.has_group("hr.group_hr_user") or self.env.user.has_group("base.group_system")
-            is_officer = self.env.user.has_group("hr.group_hr_user")
+            is_officer = self.env.user.has_group("pixel_custom_changes.group_hr_manager")
             if not is_officer and "arch" in res:
                 doc = etree.XML(res["arch"])
                 doc.set("edit", "0")
