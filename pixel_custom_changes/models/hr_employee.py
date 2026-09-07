@@ -34,8 +34,6 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     structure_id = fields.Many2one(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_ids = fields.One2many(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     message_ids = fields.One2many(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     message_partner_ids = fields.Many2many(
@@ -51,6 +49,28 @@ class HrEmployee(models.Model):
     message_has_error_counter = fields.Integer(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     message_attachment_count = fields.Integer(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    message_main_attachment_id = fields.Many2one(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    activity_ids = fields.One2many(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    activity_state = fields.Selection(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    activity_user_id = fields.Many2one(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    activity_type_id = fields.Many2one(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    activity_type_icon = fields.Char(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    activity_date_deadline = fields.Date(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    my_activity_date_deadline = fields.Date(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    activity_summary = fields.Char(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    activity_exception_decoration = fields.Selection(
+        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
+    activity_exception_icon = fields.Char(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     message_is_follower = fields.Boolean(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
@@ -71,12 +91,6 @@ class HrEmployee(models.Model):
     message_has_error_counter = fields.Integer(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
     message_attachment_count = fields.Integer(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    message_main_attachment_id = fields.Many2one(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_exception_decoration = fields.Selection(
-        groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
-    activity_exception_icon = fields.Char(
         groups="hr.group_hr_user,pixel_custom_changes.group_hr_only_user")
 
     @api.depends_context("uid")
