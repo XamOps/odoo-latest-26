@@ -22,7 +22,7 @@
     'version': '19.0.1.0.0',
     'category': 'Extra Tools',
     'summary': '',
-    'description': """
+    'description': """ Custom Changes
     """,
     "author": "Pixelwave Infotech",
     "website": "https://pixelwaveinfotech.com",
@@ -39,6 +39,8 @@
         'views/hr_version_view.xml',
         'views/hr_leave_view.xml',
         'views/hr_payslip_view.xml',
+        'report/custom_payslip_report.xml',
+        'report/custom_payslip_action.xml',
         "wizard/give_access_wizard_view.xml",
     ],
     'assets': {

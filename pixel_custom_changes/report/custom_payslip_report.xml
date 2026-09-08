@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_custom_payslip_a5" model="report.paperformat">
+        <field name="name">Custom Payslip A5</field>
+        <field name="default" eval="False"/>
+        <field name="format">A5</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">2</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">52</field>
+        <field name="disable_shrinking" eval="False"/>
+        <field name="dpi">112</field>
+    </record>
+
+     <template id="report_payslip_custom">
+        <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <div class="page">
+                        <!-- CUSTOM PAYSLIP HEADER -->
+                <div style="width:100%; border:1px solid #d9d9d9; font-family:Arial, sans-serif;">
+                
+                    <!-- COMPANY INFO + LOGO -->
+                    <div style="width:100%; display:table; padding:15px 20px; box-sizing:border-box;">
+                
+                        <!-- <div style="display:table-cell; width:75%; vertical-align:middle; text-align:left; font-size:35px; font-weight:bold; color:#333; padding:1px 0;">
+                            <span t-field="o.company_id.name"/>
+                        </div> -->
+                        
+                        <!-- RIGHT LOGO -->
+                        <div style="display:table-cell; width:25%; vertical-align:middle; text-align:right; padding:1px 0;">
+                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-width:350px; max-height:100px; margin:0; display:inline-block; vertical-align:middle;"/>
+                        </div>
+                                    
+                    </div>
+                
+                    <!-- PAYSLIP TITLE -->
+                    <div style="border-top:1px solid #d9d9d9; text-align:center; padding:10px; font-size:22px; font-weight:bold; color:#222;">
+                        Payslip for the month of
+                        <span t-field="o.date_from" t-options="{&quot;widget&quot;: &quot;date&quot;, &quot;format&quot;: &quot;MMMM yyyy&quot;}"/>
+                    </div>
+                
+                </div>
+            
+                <div id="infos_table" style="width:100%; border:1px solid #d9d9d9; font-family:Arial, sans-serif;">
+
+                    <div style="padding:8px 12px; border-bottom:1px solid #d9d9d9; font-size:16px; font-weight:bold; background:#f5f5f5;">
+                        PAY SUMMARY
+                    </div>
+                
+                    <table style="width:100%; padding:12px 15px;">
+                        <tr>
+                
+                            <!-- KEEP THIS ID -->
+                            <td id="employee_infos" style="width:50%; vertical-align:top; padding:10px 15px;">
+                
+                                <div style="margin-bottom:6px;">
+                                    <span style="display:inline-block; width:150px; color:#666;">Employee Name</span> :
+                                    <strong><span t-field="o.employee_id.legal_name"/></strong>
+                                </div>
+                
+                                <div t-if="o.version_id.job_id" style="margin-bottom:6px;">
+                                    <span style="display:inline-block; width:150px; color:#666;">Designation</span> :
+                                    <strong><span t-field="o.version_id.job_id"/></strong>
+                                </div>
+                
+                                <div style="margin-bottom:6px;">
+                                    <span style="display:inline-block; width:150px; color:#666;">Date of Joining</span> :
+                                    <span t-out="o.version_id.employee_id.with_context(before_date=o.date_to)._get_first_contract_date()"/>
+                                </div>
+                
+                                <div style="margin-bottom:6px;">
+                                    <span style="display:inline-block; width:150px; color:#666;">Paid Days</span> :
+                                    <span t-out="o.date_to.day"/>
+                                </div>
+                                                            
+                                <div style="margin-bottom:6px;">
+                                    <span style="display:inline-block; width:150px; color:#666;">PF A/C Number</span> :
+                                    <!--<span t-out="o.version_id.employee_id.with_context(before_date=o.date_to)._get_first_contract_date()"/>-->
+                                </div>
+                                <div style="margin-bottom:6px;">
+                                    <span style="display:inline-block; width:150px; color:#666;">Work Location</span> :
+                                    <!--<span t-out="o.version_id.employee_id.with_context(before_date=o.date_to)._get_first_contract_date()"/>-->
+                                </div>
+                
+                            </td>
+                
+                
+                            <!-- KEEP THIS ID -->
+                            <td id="other_infos" style="width:50%; vertical-align:top; padding:10px 15px;">
+                
+                                <div style="margin-bottom:6px;">
+                                    <span style="display:inline-block; width:150px; color:#666;">Employee ID</span> :
+                
+                                    <t t-if="o.version_id.identification_id">
+                                        <strong><span t-field="o.version_id.identification_id"/></strong>
+                                    </t>
+                
+                                    <t t-else="">-</t>
+                                </div>
+                
+                                <div t-if="o.version_id.department_id" style="margin-bottom:6px;">
+                                    <span style="display:inline-block; width:150px; color:#666;">Department</span> :
+                                    <strong><span t-field="o.version_id.department_id"/></strong>
+                                </div>
+                
+                                <div style="margin-bottom:6px;">
+                                    <span style="display:inline-block; width:150px; color:#666;">Bank Account No.</span> :
+                
+                                    <t t-if="o.employee_id.bank_account_ids">
+                                        <span t-field="o.employee_id.bank_account_ids[0].acc_number"/>
+                                    </t>
+                
+                                    <t t-else="">-</t>
+                                </div>
+                                <div style="margin-bottom:6px;">
+                                    <span style="display:inline-block; width:150px; color:#666;">UAN</span> :
+                                
+                                </div>
+                                <div style="margin-bottom:6px;">
+                                    <span style="display:inline-block; width:150px; color:#666;">PAN</span> :
+                                
+                                </div>
+                
+                            </td>
+                
+                        </tr>
+                    </table>
+                
+                </div>
+                <div id="payslip_lines_table" style="width:100%; border:1px solid #d9d9d9; font-family:Arial, sans-serif;">
+
+                        <t t-set="salary_lines" t-value="o.line_ids.filtered(lambda l: l.appears_on_payslip and not l.salary_rule_id.title)"/>
+                        <t t-set="earning_lines" t-value="salary_lines.filtered(lambda l: l.total &gt; 0 and l.code not in ['NET', 'GROSS'])"/>
+                        <t t-set="deduction_lines" t-value="salary_lines.filtered(lambda l: l.total &lt; 0)"/>
+                    
+                        <table style="width:100%; border-collapse:collapse;">
+                    
+                            <thead>
+                                <tr style="border-bottom:1px solid #d9d9d9; background:#f5f5f5;">
+                    
+                                    <!-- Keep original IDs -->
+                                    <th id="line_header_name" style="width:38%; padding:8px 12px; text-align:left; font-size:15px;">EARNINGS</th>
+                    
+                                    <th id="line_header_amount" style="width:12%; padding:8px 12px; text-align:right; font-size:15px;">AMOUNT</th>
+                    
+                                    <!-- New visible deduction header -->
+                                    <th style="width:38%; padding:8px 12px; text-align:left; border-left:1px solid #d9d9d9; font-size:15px;">DEDUCTIONS</th>
+                    
+                                    <!-- Keep original IDs -->
+                                    <th id="line_header_total" style="width:12%; padding:8px 12px; text-align:right; font-size:15px;">AMOUNT</th>
+                    
+                                    <!-- Hidden original headers to preserve inherited views -->
+                                    <th id="line_header_quantity" style="display:none;"/>
+                                    <th id="line_header_rate" style="display:none;"/>
+                    
+                                    <th id="line_header_ytd" t-if="o.ytd_computation" style="display:none;"/>
+                    
+                                </tr>
+                            </thead>
+                    
+                            <tbody id="payslip_lines">
+                    
+                                <t t-set="max_lines" t-value="max(len(earning_lines), len(deduction_lines))"/>
+                    
+                                <t t-foreach="range(max_lines)" t-as="i">
+                    
+                                    <tr id="line_display">
+                    
+                                        <!-- EARNINGS -->
+                                        <td id="payslip_line_name" style="padding:7px 12px;">
+                                            <t t-if="i &lt; len(earning_lines)">
+                                                <span t-field="earning_lines[i].name"/>
+                                            </t>
+                                        </td>
+                    
+                                        <td id="payslip_line_amount" style="padding:7px 12px; text-align:right;">
+                                            <t t-if="i &lt; len(earning_lines)">
+                                                <span t-out="earning_lines[i].total"/>
+                                            </t>
+                                        </td>
+                    
+                                        <!-- DEDUCTIONS -->
+                                        <td style="padding:7px 12px; border-left:1px solid #d9d9d9;">
+                                            <t t-if="i &lt; len(deduction_lines)">
+                                                <span t-field="deduction_lines[i].name"/>
+                                            </t>
+                                        </td>
+                    
+                                        <td id="payslip_line_total" style="padding:7px 12px; text-align:right;">
+                                            <t t-if="i &lt; len(deduction_lines)">
+                                                <span t-out="abs(deduction_lines[i].total)"/>
+                                            </t>
+                                        </td>
+                    
+                                        <!-- Preserve original IDs -->
+                                        <td id="payslip_line_quantity" style="display:none;"/>
+                                        <td id="payslip_line_rate" style="display:none;"/>
+                                        <td id="payslip_line_ytd" t-if="o.ytd_computation" style="display:none;"/>
+                    
+                                    </tr>
+                    
+                                </t>
+                    
+                            </tbody>
+                    
+                            <tfoot>
+                    
+                                <tr style="border-top:1px solid #d9d9d9; background:#f5f5f5; font-weight:bold;">
+                    
+                                    <td style="padding:9px 12px;">Gross Earnings</td>
+                    
+                                    <td style="padding:9px 12px; text-align:right;">
+                                        <span t-out="sum(earning_lines.mapped('total'))"/>
+                                    </td>
+                    
+                                    <td style="padding:9px 12px; border-left:1px solid #d9d9d9;">Total Deductions</td>
+                    
+                                    <td style="padding:9px 12px; text-align:right;">
+                                        <span t-out="abs(sum(deduction_lines.mapped('total')))"/>
+                                    </td>
+                    
+                                    <!-- Preserve table structure -->
+                                    <td style="display:none;"/>
+                                    <td style="display:none;"/>
+                    
+                                </tr>
+                    
+                            </tfoot>
+                    
+                        </table>
+                    
+                    </div>
+                    <!-- TOTAL NET PAYABLE -->
+                    <div id="to_pay" style="border-top:1px solid #d0d0d0; border-bottom:1px solid #d0d0d0; background:#f5f5f5; text-align:center; padding:8px 10px 5px 10px;">
+                
+                        <div style="font-size:24px; line-height:28px; text-align:center; white-space:nowrap;">
+                            <span>Total Net Payable </span>
+                            <span style="font-weight:bold;" t-esc="'%.2f' % o.net_wage"/>
+                            <span>(<span t-esc="o.currency_id.amount_to_text(o.net_wage)"/>)</span>
+                        </div>
+                    
+                    </div>
+                
+                    <!-- SYSTEM GENERATED DOCUMENT -->
+                    <div style="font-size:15px; color:#666; text-align:center; margin-top:100px; line-height:16px;">
+                        -- This is a system-generated document. --
+                    </div>
+            </div>
+        </t>
+
+        </t>
+
+    </template>
+    
+
+</odoo>
