@@ -33,6 +33,12 @@
             <xpath expr="//button[@name='action_payslip_cancel']" position="attributes">
 				<attribute name="groups">pixel_custom_changes.group_hr_payroll_only_manager,hr_payroll.group_hr_payroll_manager</attribute>
 			</xpath>
+			<xpath expr="//button[@name='action_print_payslip']" position="attributes">
+	            <attribute name="invisible">1</attribute>
+    	    </xpath>
+			<xpath expr="//button[@name='action_payslip_cancel']" position="after">
+            	<button string="Print" name="action_print_custom_payslip" type="object" invisible="not line_ids"/>
+	        </xpath>
         </field>
     </record>
 </odoo>
