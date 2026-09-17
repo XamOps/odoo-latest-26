@@ -90,6 +90,7 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --comment "Odoo preprod deploy from GitHub Actions" \
             --parameters 'commands=[
+              "git config --global --add safe.directory /opt/odoo/custom_addons/odoo-latest-26",
               "cd /opt/odoo/custom_addons/odoo-latest-26",
               "git fetch origin preprod",
               "git reset --hard origin/preprod",
