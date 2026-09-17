@@ -1,29 +1,126 @@
 name: Deploy Odoo to Production
+
 on:
   push:
     branches:
       - main
+
+permissions:
+  contents: read
+  id-token: write   # OIDC ke liye zaroori
+
 jobs:
-  deploy:
-    runs-on: [self-hosted, prod]
+  # ─────────────────────────────────────────────
+  # JOB A: Security Check — deploy se pehle chalta hai
+  # ─────────────────────────────────────────────
+  security-check:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout / Pull latest code
-        run: |
-          cd /opt/odoo/custom_addons/odoo-latest-26
-          git remote set-url origin https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/XamOps/odoo-latest-26.git
-          git fetch origin main
-          git reset --hard origin/main
+      - name: Harden runner - restrict outbound network
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: block
+          allowed-endpoints: >
+            github.com:443
+            api.github.com:443
+            *.githubusercontent.com:443
+            *.amazonaws.com:443
+            token.actions.githubusercontent.com:443
 
-      - name: Show latest commit deployed
-        run: |
-          cd /opt/odoo/custom_addons/odoo-latest-26
-          echo "Latest commit on server:"
-          git log -1 --pretty=format:"Commit: %H%nAuthor: %an%nDate: %ad%nMessage: %s"
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Upgrade Odoo modules
+      - name: Scan workflows for malicious exfiltration patterns
         run: |
-          sudo -u odoo PYTHONPATH=/opt/odoo/community /opt/odoo/odoo-venv/bin/python -m odoo -c /etc/odoo.conf -d odoo_19 -u pixel_custom_changes,pixel_currency_format --stop-after-init --no-http
+          echo "Scanning .github/workflows/ for suspicious patterns..."
+          FOUND=0
 
-      - name: Restart Odoo service
+          if grep -rE "curl.*-[a-zA-Z]*d[a-zA-Z]*\s.*secrets\." .github/workflows/ 2>/dev/null; then
+            echo "::error::Secret exfiltration pattern detected (curl + secrets)"
+            FOUND=1
+          fi
+          if grep -rE "wget.*secrets\." .github/workflows/ 2>/dev/null; then
+            echo "::error::Secret exfiltration pattern detected (wget + secrets)"
+            FOUND=1
+          fi
+          if grep -rE "https?://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" .github/workflows/ 2>/dev/null; then
+            echo "::error::Raw IP address reference detected in workflow"
+            FOUND=1
+          fi
+          if grep -rE "base64\s+(-d|--decode).*\|\s*(sh|bash)" .github/workflows/ 2>/dev/null; then
+            echo "::error::Obfuscated command execution detected"
+            FOUND=1
+          fi
+
+          if [ "$FOUND" -eq 1 ]; then
+            echo "::error::Malicious pattern found — blocking pipeline"
+            exit 1
+          fi
+
+          echo "Security scan passed — no suspicious patterns found"
+
+  # ─────────────────────────────────────────────
+  # JOB B: Deploy — sirf security-check pass hone par chalega
+  # ─────────────────────────────────────────────
+  deploy:
+    needs: security-check
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Harden runner - restrict outbound network
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: block
+          allowed-endpoints: >
+            github.com:443
+            api.github.com:443
+            *.amazonaws.com:443
+            token.actions.githubusercontent.com:443
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN_MAIN }}
+          aws-region: ap-south-1
+
+      - name: Deploy on server via SSM (pull + upgrade modules + restart)
         run: |
-          sudo systemctl restart odoo
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "${{ secrets.AWS_INSTANCE_ID_MAIN }}" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Odoo production deploy from GitHub Actions" \
+            --parameters 'commands=[
+              "export HOME=/root",
+              "git config --global --add safe.directory /opt/odoo/custom_addons/odoo-latest-26",
+              "cd /opt/odoo/custom_addons/odoo-latest-26",
+              "git fetch origin main",
+              "git reset --hard origin/main",
+              "echo Latest commit on server:",
+              "git log -1 --pretty=format:\"Commit: %H%nAuthor: %an%nDate: %ad%nMessage: %s\"",
+              "sudo -u odoo PYTHONPATH=/opt/odoo/community /opt/odoo/odoo-venv/bin/python -m odoo -c /etc/odoo.conf -d odoo_19 -u pixel_custom_changes,pixel_currency_format --stop-after-init --no-http",
+              "sudo systemctl daemon-reload",
+              "sudo systemctl restart odoo"
+            ]' \
+            --query "Command.CommandId" --output text)
+
+          echo "SSM Command ID: $COMMAND_ID"
+          echo "COMMAND_ID=$COMMAND_ID" >> "$GITHUB_ENV"
+
+          aws ssm wait command-executed \
+            --command-id "$COMMAND_ID" \
+            --instance-id "${{ secrets.AWS_INSTANCE_ID_MAIN }}"
+
+      - name: Show deployment output
+        run: |
+          echo "Using Command ID: $COMMAND_ID"
+
+          aws ssm get-command-invocation \
+            --command-id "$COMMAND_ID" \
+            --instance-id "${{ secrets.AWS_INSTANCE_ID_MAIN }}" \
+            --query "StandardOutputContent" --output text
+
+          echo "----- STDERR (if any) -----"
+          aws ssm get-command-invocation \
+            --command-id "$COMMAND_ID" \
+            --instance-id "${{ secrets.AWS_INSTANCE_ID_MAIN }}" \
+            --query "StandardErrorContent" --output text
