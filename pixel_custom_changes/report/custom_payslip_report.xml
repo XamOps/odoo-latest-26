@@ -213,13 +213,13 @@
                                     <td style="padding:9px 12px;">Gross Earnings</td>
                     
                                     <td style="padding:9px 12px; text-align:right;">
-                                        <span t-out="sum(earning_lines.mapped('total'))"/>
+                                        <span t-out="round(sum(earning_lines.mapped('total')), 2)"/>
                                     </td>
                     
                                     <td style="padding:9px 12px; border-left:1px solid #d9d9d9;">Total Deductions</td>
                     
                                     <td style="padding:9px 12px; text-align:right;">
-                                        <span t-out="abs(sum(deduction_lines.mapped('total')))"/>
+                                        <span t-out="round(abs(sum(deduction_lines.mapped('total'))), 2)"/>
                                     </td>
                     
                                     <!-- Preserve table structure -->
