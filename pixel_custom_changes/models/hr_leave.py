@@ -29,7 +29,7 @@ class ResPartner(models.Model):
                  leave.validation_type != "both") and
                     self.env.user.has_group("hr_holidays.group_hr_holidays_manager")):
                 leave_to_validate += leave
-                if leave.state != 'validate1':
+                if leave.state != 'validate1' and self.employee_id.leave_manager_id.id != self.env.user.id:
                     raise UserError(self.env._(
                         'You cannot approve this leave, Manager need approve first.'))
             elif (check_state and leave.can_approve or not check_state and
